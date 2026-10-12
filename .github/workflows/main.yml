@@ -1,0 +1,41 @@
+name: Build Fabric Mod
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v7
+
+      - name: Java 21 installieren
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Gradle 9.2.0 einrichten
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "9.2.0"
+          cache-provider: basic
+
+      - name: Fabric-Mod bauen
+        run: gradle build --no-daemon
+
+      - name: Mod-JAR bereitstellen
+        uses: actions/upload-artifact@v7
+        with:
+          name: GambaSlots-Fabric-1.0.0
+          path: build/libs/GambaSlots-Fabric-1.0.0.jar
+          if-no-files-found: error
