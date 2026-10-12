@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "gambaslots",
+  "version": "${version}",
+  "name": "GambaSlots",
+  "description": "Eine lokale Erz-Slotmaschine mit einem Menü auf der Taste J.",
+  "authors": ["GambaSlots contributors"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "de.example.gambaslots.GambaSlotsClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
