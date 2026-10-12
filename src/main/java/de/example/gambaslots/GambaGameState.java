@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 
-/** Local demo economy and slot state. No server balance or real currency is used. */
+/** Lokales Demo-Guthaben und Slot-Status. Kein Server-Guthaben und kein echtes Geld. */
 public final class GambaGameState {
     public static final int ROWS = 3;
     public static final int COLUMNS = 9;
@@ -92,7 +92,7 @@ public final class GambaGameState {
         return true;
     }
 
-    /** Returns true once when the spin finishes. */
+    /** Gibt genau einmal true zurück, wenn die Drehung beendet ist. */
     public static boolean tick() {
         if (!spinning) {
             return false;
@@ -143,6 +143,7 @@ public final class GambaGameState {
         OreSymbol first = GRID[PAYLINE_ROW][PAYLINE_COLUMNS[0]];
         OreSymbol second = GRID[PAYLINE_ROW][PAYLINE_COLUMNS[1]];
         OreSymbol third = GRID[PAYLINE_ROW][PAYLINE_COLUMNS[2]];
+
         if (first.item() == second.item() && first.item() == third.item()) {
             long payout = multiplySaturated(activeBet, first.multiplier());
             balance = addSaturated(balance, payout);
@@ -160,12 +161,14 @@ public final class GambaGameState {
     private static OreSymbol chooseWeightedSymbol() {
         int totalWeight = SYMBOLS.stream().mapToInt(OreSymbol::weight).sum();
         int choice = RANDOM.nextInt(totalWeight);
+
         for (OreSymbol symbol : SYMBOLS) {
             choice -= symbol.weight();
             if (choice < 0) {
                 return symbol;
             }
         }
+
         return SYMBOLS.getFirst();
     }
 
@@ -210,6 +213,7 @@ public final class GambaGameState {
     private static void saveBalance() {
         Properties properties = new Properties();
         properties.setProperty("balance", Long.toString(balance));
+
         try {
             Files.createDirectories(SAVE_FILE.getParent());
             try (OutputStream output = Files.newOutputStream(SAVE_FILE)) {
